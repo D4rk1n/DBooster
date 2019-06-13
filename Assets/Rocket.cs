@@ -2,17 +2,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
     Rigidbody rigidBody;
     AudioSource audioSource;
-    
+    int CurrLvl;
+    int NofLvl;
      public float RCSThrust = 100;
      public float mainThrust = 100;
+    enum State { Alive,Dead,Next};
+    State state= State.Alive;
+
+
+        
+        public AudioClip mainEngine;
+        public AudioClip Death;
+        public AudioClip Congrats;
+ 
+
+
+
+        public ParticleSystem mainEngineP;
+        public ParticleSystem DeathP;
+        public ParticleSystem CongratsP;
+
+
     // Start is called before the first frame update
     void Start()
     {
+
+        CurrLvl = SceneManager.GetActiveScene().buildIndex;
+        NofLvl = SceneManager.sceneCount + 1;
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
     }
@@ -25,30 +47,68 @@ public class Rocket : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        switch (collision.gameObject.tag)
+        if (state == State.Alive)
         {
-            case "Friend":
-                {
-                    break;
-                }
-            case "Fuel":
-                {
-                    print("Fuel");
-                    break;
-                }
-            default:
-                {
-                    print("kosomk");
+            switch (collision.gameObject.tag)
+            {
+                case "Friend":
+                    {
+                        state = State.Alive;
+                        break;
+                    }
+                case "Fuel":
+                    {
+                        print("Fuel");
+                        break;
+                    }
+                case "Finish":
+                    {
 
-                    break;
-                }
+                        state = State.Next;
+                       
+                        CurrLvl = (CurrLvl + 1) % NofLvl;
+                        audioSource.Stop();
+                        audioSource.PlayOneShot(Congrats);
+                        CongratsP.Play();
+                        Invoke("NextLevel",1f);
+                        break;
+                    }
+                default:
+                    {
+
+                        state = State.Dead;
+                        audioSource.Stop();
+                        audioSource.PlayOneShot(Death);
+                        DeathP.Play();
+                        if (mainEngineP.isPlaying)
+                            mainEngineP.Stop();
+                        Invoke("Reload", 1f);
+
+                        break;
+                    }
+            }
         }
     }
+
+    private void NextLevel()
+    {
+        print(CurrLvl);
+        SceneManager.LoadScene(CurrLvl);
+    }
+
+    private  void Reload()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     private void ProcessInput()
     {
-        Thrust();
+        if (state == State.Alive)
+        {
+            Thrust();
 
-        Rotate();
+            Rotate();
+        }
 
     }
 
@@ -72,11 +132,14 @@ public class Rocket : MonoBehaviour
         {
             rigidBody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
             if (!audioSource.isPlaying)
-                audioSource.Play();
-        }
-        else
-        {
+                audioSource.PlayOneShot(mainEngine);
+            if(!mainEngineP.isPlaying)
+                mainEngineP.Play();
+            }
+            else
+            {
             audioSource.Stop();
-        }
+            mainEngineP.Stop();
+            }
     }
 }
