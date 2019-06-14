@@ -27,6 +27,7 @@ public class Rocket : MonoBehaviour
         public ParticleSystem mainEngineP;
         public ParticleSystem DeathP;
         public ParticleSystem CongratsP;
+        public ParticleSystem FireP;
 
 
     // Start is called before the first frame update
@@ -34,7 +35,8 @@ public class Rocket : MonoBehaviour
     {
 
         CurrLvl = SceneManager.GetActiveScene().buildIndex;
-        NofLvl = SceneManager.sceneCount + 1;
+        NofLvl = SceneManager.sceneCountInBuildSettings;
+        print(NofLvl);
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
     }
@@ -80,6 +82,7 @@ public class Rocket : MonoBehaviour
                         audioSource.Stop();
                         audioSource.PlayOneShot(Death);
                         DeathP.Play();
+                        FireP.Play();
                         if (mainEngineP.isPlaying)
                             mainEngineP.Stop();
                         Invoke("Reload", 1f);
