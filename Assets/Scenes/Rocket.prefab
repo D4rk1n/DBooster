@@ -69,8 +69,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RCSThrust: 100
   mainThrust: 75
-  mainEngine: {fileID: 8300000, guid: 32612c9f3cc4c084c84cbcd1481b5a4f, type: 3}
-  Death: {fileID: 8300000, guid: 2d7b2eca815a54b44b9fda49724172f6, type: 3}
+  mainEngine: {fileID: 8300000, guid: 32bfc4babe90d2448891b2604ab77e1e, type: 3}
+  Death: {fileID: 8300000, guid: 48669828f60a9614ba61df5c5bc8536d, type: 3}
   Congrats: {fileID: 8300000, guid: e7d891eabf15c6348800d36e2c3827b9, type: 3}
   mainEngineP: {fileID: 198100717377743240}
   DeathP: {fileID: 198204745899209506}
@@ -93,7 +93,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -131,7 +131,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
