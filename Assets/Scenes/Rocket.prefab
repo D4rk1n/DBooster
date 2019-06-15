@@ -68,8 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 190747ed700111346a0b35aff2a9dc23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RCSThrust: 100
-  mainThrust: 75
+  RCSThrust: 200
+  mainThrust: 100
   mainEngine: {fileID: 8300000, guid: 32bfc4babe90d2448891b2604ab77e1e, type: 3}
   Death: {fileID: 8300000, guid: 48669828f60a9614ba61df5c5bc8536d, type: 3}
   Congrats: {fileID: 8300000, guid: e7d891eabf15c6348800d36e2c3827b9, type: 3}
