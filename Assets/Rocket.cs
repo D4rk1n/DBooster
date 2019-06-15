@@ -10,6 +10,7 @@ public class Rocket : MonoBehaviour
     AudioSource audioSource;
     int CurrLvl;
     int NofLvl;
+    bool toggleCollision = true;
      public float RCSThrust = 100;
      public float mainThrust = 100;
     enum State { Alive,Dead,Next};
@@ -29,7 +30,7 @@ public class Rocket : MonoBehaviour
         public ParticleSystem CongratsP;
         public ParticleSystem FireP;
 
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +50,7 @@ public class Rocket : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (state == State.Alive)
+        if (state == State.Alive && toggleCollision)
         {
             switch (collision.gameObject.tag)
             {
@@ -68,7 +69,6 @@ public class Rocket : MonoBehaviour
 
                         state = State.Next;
                        
-                        CurrLvl = (CurrLvl + 1) % NofLvl;
                         audioSource.Stop();
                         audioSource.PlayOneShot(Congrats);
                         CongratsP.Play();
@@ -95,7 +95,7 @@ public class Rocket : MonoBehaviour
 
     private void NextLevel()
     {
-        print(CurrLvl);
+        CurrLvl = (CurrLvl + 1) % NofLvl;
         SceneManager.LoadScene(CurrLvl);
     }
 
@@ -111,8 +111,22 @@ public class Rocket : MonoBehaviour
             Thrust();
 
             Rotate();
+
+            Debugger();
         }
 
+    }
+
+    private void Debugger()
+    {
+        if(Input.GetKey(KeyCode.L))
+        {
+            NextLevel();
+        }
+        else if (Input.GetKey(KeyCode.C))
+        {
+            toggleCollision = !toggleCollision;
+        }
     }
 
     private void Rotate()
