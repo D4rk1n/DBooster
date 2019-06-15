@@ -111,8 +111,8 @@ public class Rocket : MonoBehaviour
             Thrust();
 
             Rotate();
-
-            Debugger();
+            if(Debug.isDebugBuild)
+                Debugger();
         }
 
     }
