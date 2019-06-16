@@ -4849,6 +4849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StarP: {fileID: 1167606369}
+  meshRenderer: {fileID: 1571321224}
 --- !u!54 &1690294742
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -23,7 +23,9 @@ public class Star : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             StarP.Play();
-            Invoke("dDestroy", 0.5f);
+           
+           
+           // Invoke("dDestroy", 0.5f);
         }
     }
 
