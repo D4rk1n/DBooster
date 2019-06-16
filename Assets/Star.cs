@@ -6,10 +6,12 @@ using UnityEngine;
 public class Star : MonoBehaviour
 {
     public ParticleSystem StarP;
-
+    public AudioClip collect;
+    public GameObject meshChild;
+    AudioSource audioSource;
     void Start()
     {
-  
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -23,9 +25,10 @@ public class Star : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             StarP.Play();
-           
-           
-           // Invoke("dDestroy", 0.5f);
+            audioSource.PlayOneShot(collect);
+            //gameObject.SetActive(false);
+            meshChild.GetComponent<MeshRenderer>().enabled = false;
+            Invoke("dDestroy", 1f);
         }
     }
 
