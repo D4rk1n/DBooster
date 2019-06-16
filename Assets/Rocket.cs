@@ -46,15 +46,17 @@ public class Rocket : MonoBehaviour
     void Update()
     {
         ProcessInput();
-        
+        print(nStars);
     }
     private void OnTriggerEnter(Collider other)
     {
        
         if (other.gameObject.CompareTag("Star"))
         {
-            nStars++;
+            
+                nStars++;
         }
+       
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -69,13 +71,13 @@ public class Rocket : MonoBehaviour
                     }
                 case "Star":
                     {
-                        nStars++;
+                        print("lol");
                         state = State.Alive;
                         break;
                     }
                 case "Finish":
                     {
-                        if (nStars >= 2)
+                        if (nStars/2 >= 2)
                         {
                             state = State.Next;
                             audioSource.Stop();
