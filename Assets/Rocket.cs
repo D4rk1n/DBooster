@@ -10,6 +10,7 @@ public class Rocket : MonoBehaviour
     AudioSource audioSource;
     int CurrLvl;
     int NofLvl;
+    int nStars;
     bool toggleCollision = true;
      public float RCSThrust = 100;
      public float mainThrust = 100;
@@ -34,10 +35,9 @@ public class Rocket : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        nStars = 0;
         CurrLvl = SceneManager.GetActiveScene().buildIndex;
         NofLvl = SceneManager.sceneCountInBuildSettings;
-        print(NofLvl);
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
     }
@@ -47,6 +47,14 @@ public class Rocket : MonoBehaviour
     {
         ProcessInput();
         
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+       
+        if (other.gameObject.CompareTag("Star"))
+        {
+            nStars++;
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -59,20 +67,22 @@ public class Rocket : MonoBehaviour
                         state = State.Alive;
                         break;
                     }
-                case "Fuel":
+                case "Star":
                     {
-                        print("Fuel");
+                        nStars++;
+                        state = State.Alive;
                         break;
                     }
                 case "Finish":
                     {
-
-                        state = State.Next;
-                       
-                        audioSource.Stop();
-                        audioSource.PlayOneShot(Congrats);
-                        CongratsP.Play();
-                        Invoke("NextLevel",1f);
+                        if (nStars >= 2)
+                        {
+                            state = State.Next;
+                            audioSource.Stop();
+                            audioSource.PlayOneShot(Congrats);
+                            CongratsP.Play();
+                            Invoke("NextLevel", 1f);
+                        }
                         break;
                     }
                 default:
